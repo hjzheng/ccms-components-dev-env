@@ -18,8 +18,8 @@ docker run -d -p 9527:22 -p 3333:3000 -v  <yourpath>:/root/ccms-components <user
 
 > 关于 volume issue https://github.com/moby/moby/issues/13984
 
-> 以为会保持 container 目录中的内容到映射的本地目录 `<yourpath>` 中, 目前 Docker 还不支持, 之后在 2.0 版本也许会支持(?),
-> 按照上述方式, /root/ccms-components 目录会被本地目录 `<yourpath>` 临时占用, 所以还需要在该目录 clone 一次项目, 再安装一次依赖,
+> 以为会将 container 目录中的内容 copy 到本地目录 `<yourpath>` 中, 目前 Docker 还不支持该功能, 之后在 2.0 版本也许会支持(?),
+> 按照上述方式, /root/ccms-components 目录会被本地目录 `<yourpath>` 遮蔽, 所以还需要在该目录 clone 一次项目, 再安装一次依赖,
 > 但是会很快, 因为该环境之前已经安装过了 npm 依赖.
 
 可以直接使用我 build 完成的 image:
