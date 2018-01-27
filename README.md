@@ -41,8 +41,36 @@ docker pull haojujzheng/ccms-components-dev-env
 
 #### 总结
 
-image 太大了.
+- ccms-components-dev-env image 太大了. (需要进一步清除 yum 缓存 和 npm 缓存)
 
 该 image 是基于 centos7 并安装 openssh-server passwd git nodejs, 外加 ccms-components 项目源码以及依赖 npm 包, 整体 build 下来
 500多MB, 太大了. 但是好处在于它是一套完全独立的开发环境, 可以节省 npm 依赖安装时间, 对于团队中使用 windows 的同学, 可以解决安装 npm 依赖慢,
 安装易出错等问题. 另外, 最终项目打包完成后, 还是会部署到 Linux 环境, 使用 windows 同学提前去熟悉 Linux Shell 的操作.
+
+- 是否需要在本地增加一套执行脚本? (这样意味这本地需要一套 node 环境)
+
+是否需要通过 `docker exec -it <container name> <command>` 增加一套本地的 npm 操作, 对应 container 中的操作.
+
+- 关于单元测试的 chrome 浏览器, 未被安装 ?
+
+修改 karma 配置
+
+```js
+browsers: ['ChromeHeadlessNoSandbox'],
+customLaunchers: {
+ ChromeHeadlessNoSandbox: {
+   base: 'Chrome',
+   flags: [
+     '--headless',
+     '--no-sandbox',
+     '--disable-gpu',
+     '--remote-debugging-address=0.0.0.0',
+     '--remote-debugging-port=9222',
+     '--user-data-dir=/data'
+   ]
+ }
+}
+```
+
+- [安装方法](https://www.if-not-true-then-false.com/2010/install-google-chrome-with-yum-on-fedora-red-hat-rhel/)
+- [centos-chrome](https://hub.docker.com/r/madskonradsen/centos-chrome/~/dockerfile/)
